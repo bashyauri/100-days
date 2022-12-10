@@ -1,1 +1,1 @@
-canvas.create_image(100, 100, image=key_img)
+print(nr_letters)
