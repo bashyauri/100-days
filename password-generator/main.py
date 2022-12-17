@@ -1,3 +1,4 @@
+import json
 import os
 from random import *
 from tkinter import *
@@ -38,21 +39,64 @@ def check_empty(*kwargs):
         return False
 
 
+def find_password():
+    website = enter_website.get().title()
+    is_empty = check_empty(website)
+    if is_empty:
+        messagebox.showerror(
+            title="Oops", message="One of the fields is empty")
+    else:
+        try:
+            with open(os.path.join(path, "password-generator", "data.json"), 'r') as f:
+                # Reading old data
+                data = json.load(f)
+        except FileNotFoundError:
+            messagebox.showinfo(title="Info", message="No Data file found")
+        else:
+            try:
+                website_details = data[website]
+
+            except KeyError:
+                messagebox.showinfo(
+                    title="Info", message="No details for the website exist ")
+
+            else:
+                messagebox.showinfo(
+                    title="Info", message=f"website:{website}\nPassword:{website_details['password']}")
+                pyperclip.copy(website_details['password'])
+
+
 def save_password():
-    website = enter_website.get()
+    website = enter_website.get().title()
     password = enter_password.get()
     email = enter_username.get()
+
+    new_data = {website: {
+        "email": email,
+        "password": password,
+    }}
     is_empty = check_empty(website, password, email)
     if is_empty:
         messagebox.showerror(
             title="Oops", message="One of the fields is empty")
     else:
-        is_ok = messagebox.askokcancel(
-            title=website.title(), message=f"These are the details entered: \nEmail: {email.title()} \nPassword: {password} \nis it okay to save?")
-        if is_ok:
+        try:
+            with open(os.path.join(path, "password-generator", "data.json"), 'r') as f:
+                # Reading old data
+                data = json.load(f)
 
-            with open('data.txt', 'a') as f:
-                f.write(f"{website.title()} | {email} | {password}\n")
+        except FileNotFoundError:
+            with open(os.path.join(path, "password-generator", "data.json"), 'w') as f:
+               # Saving the updated data
+                json.dump(new_data, f, indent=4)
+        else:
+            # updating old data with new data
+            data.update(new_data)
+
+            with open(os.path.join(path, "password-generator", "data.json"), 'w') as f:
+                # Saving the updated data
+                json.dump(data, f, indent=4)
+        finally:
             enter_website.delete(0, END)
             enter_password.delete(0, END)
 
@@ -60,7 +104,7 @@ def save_password():
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Password Manager")
-window.config(padx=50, pady=50)
+window.config(padx=20, pady=20)
 
 # canvas
 
@@ -92,8 +136,12 @@ enter_username.insert(0, "basharu83@gmail.com")
 enter_password = Entry(width=17)
 enter_password.grid(row=5, column=2)
 # buttons
+button_search = Button(text="Search", width=10, command=find_password)
+button_search.grid(row=3, column=5)
+
 button_generate = Button(text="Generate Password", command=generate_password)
 button_generate.grid(row=5, column=3)
+
 
 button_add = Button(text="Add", width=44, command=save_password)
 button_add.grid(row=6, column=2, columnspan=2)
