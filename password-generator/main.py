@@ -1,3 +1,4 @@
+import os
 from random import *
 from tkinter import *
 import pyperclip
@@ -65,8 +66,8 @@ window.config(padx=50, pady=50)
 
 canvas = Canvas(width=200, height=200)
 
-
-key_img = PhotoImage(file="key.png")
+path = os.getcwd()
+key_img = PhotoImage(file=os.path.join(path, "password-generator", "key.png"))
 canvas.create_image(100, 100, image=key_img)
 canvas.grid(row=2, column=2)
 # label

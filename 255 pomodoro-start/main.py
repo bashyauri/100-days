@@ -1,4 +1,5 @@
 import time
+import os
 from tkinter import *
 import math
 # ---------------------------- CONSTANTS ------------------------------- #
@@ -86,7 +87,10 @@ start.grid(row=3, column=1)
 reset = Button(text="Reset", highlightthickness=0, command=reset_timer)
 reset.grid(row=3, column=3)
 canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
-tomato_img = PhotoImage(file="tomato.png")
+path = os.getcwd()
+
+tomato_img = PhotoImage(
+    file=os.path.join(path, "255 pomodoro-start", "tomato.png"))
 
 canvas.create_image(100, 112, image=tomato_img)
 timer_text = canvas.create_text(100, 130, text="00:00", fill="white",
