@@ -9,6 +9,7 @@ file_path = os.path.dirname(__file__)
 def get_quote():
     url = "https://api.kanye.rest/"
     response = requests.get(url=url)
+    response.raise_for_status()
     data = response.json()
     quote = data['quote']
     canvas.itemconfig(quote_text, text=quote)
