@@ -1,8 +1,11 @@
-Application built using Tkinter
-Using the inpiration of pomodoro App
+# Application built using Tkinter
 
-Start working for 25 minutes
-take a short break of 5 minutes
-then after four short breaks you take a long break of 25 minutes
+## Using the inpiration of pomodoro App
 
-By following this routine this will help you remain focused.
+## Start working for 25 minutes
+
+## take a short break of 5 minutes
+
+## then after four short breaks you take a long break of 25 minutes
+
+## By following this routine this will help you remain focused.
