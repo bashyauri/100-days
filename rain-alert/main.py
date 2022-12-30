@@ -1,7 +1,8 @@
 import requests
 api_key = "6131d002d6463ce92a39a89dab68dcd1"
 city_name = "Birnin Kebbi,Nigeria"
-lat = -12.070830
+# I changed the latitude to a place where its raining using latlon website//
+lat = -12.070830   
 lon = -75.206680
 sms_username = "your username"
 sms_password = "your password"
