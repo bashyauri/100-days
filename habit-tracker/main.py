@@ -30,7 +30,7 @@ headers = {
 # print(response.text)
 dt = datetime.now()
 TODAY = dt.strftime('%Y%m%d')
-QUANTITY = "3"
+QUANTITY = input("How many Kilometers did you trekked today(km): ")
 
 
 pixel_post_config = {
@@ -40,6 +40,18 @@ pixel_post_config = {
 
 
 post_pixel_url = f"{graph_endpoint}/{graph_config['id']}"
+# using the post method
 response = requests.post(
     post_pixel_url, json=pixel_post_config, headers=headers)
+# PUT Requests
+# pixel_put_config = {
+#     "quantity": "2",
+# }
+# put_pixel_url = f"{post_pixel_url}/{TODAY}"
+# response = requests.put(
+#     url=put_pixel_url, json=pixel_put_config, headers=headers)
+# delete_pixel_url = f"{post_pixel_url}/20221230"
+# delete Request
+# response = requests.delete(delete_pixel_url,headers=headers)
+
 print(response.text)
