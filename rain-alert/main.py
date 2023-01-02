@@ -1,11 +1,13 @@
+import os
 import requests
-api_key = "6131d002d6463ce92a39a89dab68dcd1"
+# "6131d002d6463ce92a39a89dab68dcd1"
+api_key = os.environ.get("API_KEY")
 city_name = "Birnin Kebbi,Nigeria"
 # I changed the latitude to a place where its raining using latlon website//
-lat = -12.070830   
+lat = -12.070830
 lon = -75.206680
-sms_username = "your username"
-sms_password = "your password"
+sms_username = os.environ.get('SMS_USERNAME')
+sms_password = os.environ.get('SMS_PASSWORD')
 sms_url = "https://portal.nigeriabulksms.com/api/"
 sms_parameters = {
     "username": sms_username,
@@ -39,6 +41,7 @@ def send_sms(message, mobile):
     sms_response = requests.get(url=sms_url, params=sms_parameters)
     sms_response.raise_for_status()
     sms_data = sms_response.json()
+
     status = sms_data['status']
     if status == 'OK':
         print("Success")
