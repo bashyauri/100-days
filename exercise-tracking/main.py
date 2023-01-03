@@ -1,8 +1,12 @@
+import os
 import requests
+from dotenv import load_dotenv
 from datetime import *
+load_dotenv()
+APP_ID = os.environ.get("APP_ID")
 
-APP_ID = "d76012e9"
-APP_KEY = "3d3fe11200e1622d6afa910c0ec8ff02"
+
+APP_KEY = os.environ.get("APP_KEY")
 exercise_endpoint = "https://trackapi.nutritionix.com/v2/natural/exercise"
 query = input("Tell me what exercises you did: ")
 headers = {
@@ -20,19 +24,20 @@ parameters = {
 
 response = requests.post(url=exercise_endpoint,
                          json=parameters, headers=headers)
-response.raise_for_status()
+# response.raise_for_status()
 
 data = response.json()
-print(data['exercises'][0]['name'])
+
+# print(data['exercises'][0]['name'])
 dt = datetime.now()
 SHEETY_DATE = dt.strftime('%d/%m/%Y')
 SHEETY_TIME = dt.strftime('%H:%M:%S')
 SHEETY_EXERCISE = data['exercises'][0]['name']
 SHEETY_CALORIES = data['exercises'][0]['nf_calories']
 SHEETY_DURATION = data['exercises'][0]['duration_min']
-print(SHEETY_DURATION)
 
-sheety_endpoint = "https://api.sheety.co/8ce14fed661a498f82a423ccc8124db7/myWorkouts/workouts"
+
+sheety_endpoint = os.environ.get("SHEETY_ENDPOINT")
 sheety_params = {
     "workout": {
         "date": SHEETY_DATE,
@@ -49,4 +54,4 @@ sheety_headers = {
 }
 sheety_resonse = requests.post(
     sheety_endpoint, json=sheety_params, headers=sheety_headers)
-print(sheety_resonse.text)
+print(sheety_resonse.reason)
