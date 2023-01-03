@@ -32,26 +32,27 @@ data = response.json()
 dt = datetime.now()
 SHEETY_DATE = dt.strftime('%d/%m/%Y')
 SHEETY_TIME = dt.strftime('%H:%M:%S')
-SHEETY_EXERCISE = data['exercises'][0]['name']
-SHEETY_CALORIES = data['exercises'][0]['nf_calories']
-SHEETY_DURATION = data['exercises'][0]['duration_min']
+# SHEETY_EXERCISE = data['exercises'][0]['name']
+# SHEETY_CALORIES = data['exercises'][0]['nf_calories']
+# SHEETY_DURATION = data['exercises'][0]['duration_min']
 
 
 sheety_endpoint = os.environ.get("SHEETY_ENDPOINT")
-sheety_params = {
-    "workout": {
-        "date": SHEETY_DATE,
-        "time": SHEETY_TIME,
-        "exercise": SHEETY_EXERCISE.title(),
-        "duration": SHEETY_DURATION,
-        "calories": SHEETY_CALORIES,
+for exercise in data['exercises']:
+    sheety_params = {
+        "workout": {
+            "date": SHEETY_DATE,
+            "time": SHEETY_TIME,
+            "exercise": exercise['name'].title(),
+            "duration": exercise['duration_min'],
+            "calories": exercise['nf_calories'],
 
 
+        }
     }
-}
-sheety_headers = {
-    "Authorization": "Basic YmFzaHRlY2g6T3JhY2xlXzE="
-}
-sheety_resonse = requests.post(
-    sheety_endpoint, json=sheety_params, headers=sheety_headers)
-print(sheety_resonse.reason)
+    sheety_headers = {
+        "Authorization": "Basic YmFzaHRlY2g6T3JhY2xlXzE="
+    }
+    sheety_resonse = requests.post(
+        sheety_endpoint, json=sheety_params, headers=sheety_headers)
+    print(sheety_resonse.reason)
